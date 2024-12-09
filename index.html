@@ -23,11 +23,10 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       padding: 30px;
     }
-    h1 {
+    h1, h2 {
       text-align: center;
       font-size: 28px;
       color: #333;
-      margin-bottom: 20px;
     }
     .screen {
       display: none;
@@ -49,11 +48,6 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       color: white;
     }
-    .product-card label {
-      font-size: 18px;
-      margin-bottom: 10px;
-      display: block;
-    }
     .product-card input[type="range"] {
       width: 100%;
       margin: 10px 0;
@@ -70,12 +64,6 @@
       background: #007bff;
       border-radius: 50%;
       cursor: pointer;
-    }
-    .product-card span {
-      display: block;
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: bold;
     }
     button {
       font-size: 20px;
@@ -97,8 +85,9 @@
       background: #ff4d4d;
       color: white;
     }
-    .btn-red:hover {
-      background: #cc0000;
+    .btn-red:disabled {
+      background: #ccc;
+      cursor: not-allowed;
     }
     .screen-2-layout {
       display: grid;
@@ -112,14 +101,18 @@
       flex-direction: column;
       align-items: center;
     }
-    .screen-2-column h2 {
-      font-size: 22px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
     .screen-2-column ul {
       list-style: none;
       padding: 0;
+      margin: 0;
+    }
+    .screen-2-column ul li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .screen-2-column ul li input[type="radio"] {
+      margin-right: 10px;
     }
   </style>
 </head>
@@ -146,9 +139,8 @@
 
         <!-- Second Column -->
         <div class="screen-2-column">
-          <!-- No heading for button column -->
           <button id="calculateBtn" class="btn-blue">Wechselgeld berechnen</button>
-          <button id="clearBtn" class="btn-red">Zurücksetzen</button>
+          <button id="clearBtn" class="btn-red" disabled>Zurücksetzen</button>
         </div>
 
         <!-- Third Column -->
