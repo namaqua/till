@@ -4,28 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamische Produktkarten</title>
-  <!-- Local Fonts -->
   <style>
-    @font-face {
-      font-family: 'Ubuntu';
-      src: url('./assets/fonts/Ubuntu-Regular.ttf') format('truetype');
-      font-weight: 400;
-    }
-
-    @font-face {
-      font-family: 'Ubuntu';
-      src: url('./assets/fonts/Ubuntu-Medium.ttf') format('truetype');
-      font-weight: 500;
-    }
-
-    @font-face {
-      font-family: 'Ubuntu';
-      src: url('./assets/fonts/Ubuntu-Bold.ttf') format('truetype');
-      font-weight: 700;
-    }
-
     body {
-      font-family: 'Ubuntu', sans-serif;
+      font-family: Arial, sans-serif;
       background-color: #f9f9f9;
       margin: 0;
       padding: 0;
@@ -109,9 +90,6 @@
       display: block;
       margin: 10px auto;
     }
-    button:hover {
-      filter: brightness(0.9);
-    }
     .btn-blue {
       background: #007bff;
       color: white;
@@ -133,35 +111,26 @@
     <!-- First Screen -->
     <div id="screen1" class="screen visible">
       <h1>Artikel auswählen</h1>
-      <div id="productList" class="product-grid">
-        <!-- Example Product Card -->
-        <div class="product-card">
-          <label for="productQty1">Produkt Name</label>
-          <input 
-            type="range" 
-            id="productQty1" 
-            min="0" 
-            max="10" 
-            value="0" 
-            oninput="updateQuantity(this, 'qtyDisplay1')"
-          />
-          <span id="qtyDisplay1">0</span>
-        </div>
-      </div>
+      <div id="productList" class="product-grid"></div>
       <button id="nextBtn" class="btn-blue">Weiter</button>
     </div>
 
     <!-- Second Screen -->
     <div id="screen2" class="screen">
       <h1>Zahlung</h1>
-      <!-- Your existing layout remains unchanged -->
+      <div>
+        <p>Gesamtpreis: €<span id="totalPrice">0</span></p>
+        <ul id="orderSummaryList"></ul>
+        <div>
+          <label for="moneyPaid">Gezahlter Betrag:</label>
+          <input type="text" id="moneyPaid" value="0.00" placeholder="z. B. 1.50">
+        </div>
+        <p>Wechselgeld: €<span id="change">0</span></p>
+        <button id="calculateBtn" class="btn-blue">Wechselgeld berechnen</button>
+        <button id="clearBtn" class="btn-red">Zurücksetzen</button>
+      </div>
     </div>
   </div>
-  <script>
-    function updateQuantity(rangeInput, displayId) {
-      const displayElement = document.getElementById(displayId);
-      displayElement.textContent = rangeInput.value;
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
