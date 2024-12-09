@@ -1,0 +1,13 @@
+[
+  { "name": "G - Cola - Limo", "price": 3, "color": "#F4D03F" },
+  { "name": "k - Cola - Limo", "price": 2, "color": "#F7DC6F" },
+  { "name": "G - Wasser", "price": 2, "color": "#5DADE2" },
+  { "name": "k - Wasser", "price": 1, "color": "#85C1E9" },
+  { "name": "G - Bier", "price": 2, "color": "#D35400" },
+  { "name": "k - Bier", "price": 2, "color": "#E59866" },
+  { "name": "Wein", "price": 3, "color": "#9B59B6" },
+  { "name": "Sekt", "price": 3, "color": "#F7DC6F" },
+  { "name": "Schnapps", "price": 3, "color": "#E74C3C" },
+  { "name": "Bratwurst", "price": 5, "color": "#935116" },
+  { "name": "Brätel", "price": 5, "color": "#A04000" }
+]

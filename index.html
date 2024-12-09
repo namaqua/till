@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamische Produktkarten</title>
+  <!-- Local Fonts -->
+  <style>
+    @font-face {
+      font-family: 'Ubuntu';
+      src: url('./assets/fonts/Ubuntu-Regular.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: 'Ubuntu';
+      src: url('./assets/fonts/Ubuntu-Medium.ttf') format('truetype');
+      font-weight: 500;
+    }
+
+    @font-face {
+      font-family: 'Ubuntu';
+      src: url('./assets/fonts/Ubuntu-Bold.ttf') format('truetype');
+      font-weight: 700;
+    }
+
+    body {
+      font-family: 'Ubuntu', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .app-container {
+      max-width: 1024px;
+      width: 100%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .screen {
+      display: none;
+    }
+    .visible {
+      display: block;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .product-card {
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      background-color: #f5f5f5;
+    }
+    .product-card label {
+      font-size: 18px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .product-card input {
+      width: 80px;
+      height: 40px;
+      font-size: 16px;
+      text-align: center;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      font-size: 20px;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: block;
+      margin: 10px auto;
+    }
+    button:hover {
+      filter: brightness(0.9);
+    }
+    .btn-blue {
+      background: #007bff;
+      color: white;
+    }
+    .btn-blue:hover {
+      background: #0056b3;
+    }
+    .btn-red {
+      background: #ff4d4d;
+      color: white;
+    }
+    .btn-red:hover {
+      background: #cc0000;
+    }
+    .screen-2-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      padding: 0 20px;
+    }
+    .screen-2-left {
+      font-size: 20px;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .screen-2-left p {
+      margin-bottom: 20px;
+    }
+    .screen-2-left .input-row {
+      margin-bottom: 20px;
+    }
+    .screen-2-left input {
+      width: 150px;
+      height: 50px;
+      font-size: 18px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 5px;
+    }
+    .screen-2-left input::placeholder {
+      color: #aaa;
+      font-size: 16px;
+      font-style: italic;
+    }
+    .screen-2-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+    .order-summary {
+      font-size: 16px;
+      color: #333;
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .order-summary h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .order-summary ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .order-summary ul li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- First Screen -->
+    <div id="screen1" class="screen visible">
+      <h1>Artikel auswählen</h1>
+      <div id="productList" class="product-grid"></div>
+      <button id="nextBtn" class="btn-blue">Weiter</button>
+    </div>
+
+    <!-- Second Screen -->
+    <div id="screen2" class="screen">
+      <h1>Zahlung</h1>
+      <div class="screen-2-layout">
+        <!-- First Column -->
+        <div class="screen-2-left">
+          <p>Gesamtpreis: €<span id="totalPrice">0</span></p>
+          <div class="input-row">
+            <label>Gezahlter Betrag:</label>
+            <input type="text" id="moneyPaid" value="0.00" placeholder="z. B. 1.50">
+          </div>
+          <p>Wechselgeld: €<span id="change">0</span></p>
+        </div>
+        <!-- Second Column -->
+        <div class="screen-2-right">
+          <button id="calculateBtn" class="btn-blue">Wechselgeld berechnen</button>
+          <button id="clearBtn" class="btn-red">Zurücksetzen</button>
+        </div>
+        <!-- Third Column -->
+        <div class="order-summary">
+          <h2>Bestellung</h2>
+          <ul id="orderSummaryList">
+            <!-- List of ordered items will appear here -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
