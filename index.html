@@ -105,35 +105,21 @@
       grid-template-columns: 1fr 1fr 1fr;
       gap: 20px;
       padding: 20px;
-      align-items: center; /* Align content vertically to center */
+      align-items: start;
     }
-    .screen-2-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 15px;
-      font-size: 18px;
-    }
-    .screen-2-right {
+    .screen-2-column {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 15px;
     }
-    .screen-2-summary {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 15px;
+    .screen-2-column h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
     }
-    .screen-2-summary ul {
+    .screen-2-column ul {
       list-style: none;
       padding: 0;
-    }
-    .screen-2-summary h2 {
-      margin: 0;
-      text-align: center;
     }
   </style>
 </head>
@@ -148,10 +134,10 @@
 
     <!-- Second Screen -->
     <div id="screen2" class="screen">
-      <h1>Zahlung</h1>
       <div class="screen-2-layout">
         <!-- First Column -->
-        <div class="screen-2-left">
+        <div class="screen-2-column">
+          <h2>Zahlung</h2>
           <p>Gesamtpreis: €<span id="totalPrice">0</span></p>
           <label for="moneyPaid">Gezahlter Betrag:</label>
           <input type="text" id="moneyPaid" placeholder="z. B. 1.50">
@@ -159,13 +145,14 @@
         </div>
 
         <!-- Second Column -->
-        <div class="screen-2-right">
+        <div class="screen-2-column">
+          <!-- No heading for button column -->
           <button id="calculateBtn" class="btn-blue">Wechselgeld berechnen</button>
           <button id="clearBtn" class="btn-red">Zurücksetzen</button>
         </div>
 
         <!-- Third Column -->
-        <div class="screen-2-summary">
+        <div class="screen-2-column">
           <h2>Bestellung</h2>
           <ul id="orderSummaryList"></ul>
         </div>
