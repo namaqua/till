@@ -36,7 +36,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         productCard.innerHTML = `
           <label>${product.name} (€${product.price}):</label>
-          <input type="number" id="productQty${index}" value="0" min="0">
+          <input 
+            type="range" 
+            id="productQty${index}" 
+            min="0" 
+            max="10" 
+            value="0" 
+            oninput="updateSliderValue(${index})"
+          />
+          <span id="qtyDisplay${index}">0</span>
         `;
         productList.appendChild(productCard);
 
@@ -44,6 +52,13 @@ document.addEventListener("DOMContentLoaded", () => {
         quantities[product.name] = 0;
       });
     });
+
+  // Update slider value dynamically
+  window.updateSliderValue = (index) => {
+    const slider = document.getElementById(`productQty${index}`);
+    const display = document.getElementById(`qtyDisplay${index}`);
+    display.textContent = slider.value;
+  };
 
   nextBtn.addEventListener("click", () => {
     let totalPrice = 0;
@@ -58,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add to order summary
         const listItem = document.createElement("li");
-        listItem.textContent = `${product.name}: ${qty} Stück`;
+        listItem.textContent = `${qty} x ${product.name}`;
         orderSummaryList.appendChild(listItem);
       } else {
         quantities[product.name] = 0;
@@ -91,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     quantities = {};
     products.forEach((_, index) => {
       document.getElementById(`productQty${index}`).value = 0;
+      document.getElementById(`qtyDisplay${index}`).textContent = 0;
     });
 
     totalPriceElement.textContent = "0.00";
