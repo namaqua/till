@@ -44,7 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   nextBtn.addEventListener("click", () => {
-    orderSummaryList.innerHTML = "";
+    orderSummaryList.innerHTML = ""; // Clear previous order summary
+    clearBtn.disabled = true; // Always disable the "Zurücksetzen" button initially
     let totalPrice = 0;
 
     products.forEach((product, index) => {
@@ -64,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     totalPriceElement.textContent = totalPrice.toFixed(2);
 
+    // Reattach listeners for radio buttons
     document.querySelectorAll("#orderSummaryList input[type='radio']").forEach((radio) => {
       radio.addEventListener("change", checkAllRadios);
     });
@@ -79,16 +81,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   clearBtn.addEventListener("click", () => {
+    // Reset everything to initial state
     quantities = {};
     products.forEach((_, index) => {
-      document.getElementById(`productQty${index}`).value = 0;
+      const qtyInput = document.getElementById(`productQty${index}`);
+      qtyInput.value = 0;
       document.getElementById(`qtyDisplay${index}`).textContent = "0";
     });
 
     totalPriceElement.textContent = "0.00";
     moneyPaidInput.value = "";
     changeElement.textContent = "0.00";
-    orderSummaryList.innerHTML = "";
+    orderSummaryList.innerHTML = ""; // Clear the order summary
+    clearBtn.disabled = true; // Re-disable the "Zurücksetzen" button
 
     document.getElementById("screen2").classList.remove("visible");
     document.getElementById("screen1").classList.add("visible");
