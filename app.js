@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextBtn = document.getElementById("nextBtn");
   const orderSummaryList = document.getElementById("orderSummaryList");
   const clearBtn = document.getElementById("clearBtn");
+  const totalPriceElement = document.getElementById("totalPrice");
+  const moneyPaidInput = document.getElementById("moneyPaid");
+  const changeElement = document.getElementById("change");
 
   let products = [];
   let quantities = {};
@@ -19,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((response) => response.json())
     .then((data) => {
       products = data;
-
       products.forEach((product, index) => {
         const productCard = document.createElement("div");
         productCard.className = "product-card";
@@ -32,17 +34,24 @@ document.addEventListener("DOMContentLoaded", () => {
           <span id="qtyDisplay${index}">0</span>
         `;
         productList.appendChild(productCard);
+
+        document.getElementById(`productQty${index}`).addEventListener("input", (e) => {
+          document.getElementById(`qtyDisplay${index}`).textContent = e.target.value;
+        });
+
         quantities[product.name] = 0;
       });
     });
 
   nextBtn.addEventListener("click", () => {
-    orderSummaryList.innerHTML = ""; // Clear previous order summary
+    orderSummaryList.innerHTML = "";
+    let totalPrice = 0;
 
     products.forEach((product, index) => {
       const qty = parseInt(document.getElementById(`productQty${index}`).value, 10) || 0;
       if (qty > 0) {
         quantities[product.name] = qty;
+        totalPrice += qty * product.price;
 
         const listItem = document.createElement("li");
         listItem.innerHTML = `
@@ -53,9 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    totalPriceElement.textContent = totalPrice.toFixed(2);
+
     document.querySelectorAll("#orderSummaryList input[type='radio']").forEach((radio) => {
       radio.addEventListener("change", checkAllRadios);
     });
+
+    document.getElementById("screen1").classList.remove("visible");
+    document.getElementById("screen2").classList.add("visible");
   });
 
   function checkAllRadios() {
@@ -63,4 +77,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const allChecked = Array.from(radios).every((radio) => radio.checked);
     clearBtn.disabled = !allChecked;
   }
+
+  clearBtn.addEventListener("click", () => {
+    quantities = {};
+    products.forEach((_, index) => {
+      document.getElementById(`productQty${index}`).value = 0;
+      document.getElementById(`qtyDisplay${index}`).textContent = "0";
+    });
+
+    totalPriceElement.textContent = "0.00";
+    moneyPaidInput.value = "";
+    changeElement.textContent = "0.00";
+    orderSummaryList.innerHTML = "";
+
+    document.getElementById("screen2").classList.remove("visible");
+    document.getElementById("screen1").classList.add("visible");
+  });
+
+  document.getElementById("calculateBtn").addEventListener("click", () => {
+    const moneyPaid = parseFloat(moneyPaidInput.value) || 0;
+    const totalPrice = parseFloat(totalPriceElement.textContent);
+    const change = moneyPaid - totalPrice;
+
+    changeElement.textContent = change >= 0 ? change.toFixed(2) : "0.00";
+  });
 });
