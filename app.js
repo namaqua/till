@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nextBtn.addEventListener("click", () => {
     orderSummaryList.innerHTML = ""; // Clear previous order summary
-    clearBtn.disabled = true; // Always disable the "Zurücksetzen" button initially
+    clearBtn.disabled = true; // Disable "Zurücksetzen" button initially
     let totalPrice = 0;
 
     products.forEach((product, index) => {
@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const listItem = document.createElement("li");
         listItem.innerHTML = `
-          <input type="radio" id="radio${index}" name="orderRadio">
-          <label for="radio${index}">${qty} x ${product.name}</label>
+          <input type="checkbox" id="checkbox${index}" class="order-checkbox">
+          <label for="checkbox${index}">${qty} x ${product.name}</label>
         `;
         orderSummaryList.appendChild(listItem);
       }
@@ -65,18 +65,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     totalPriceElement.textContent = totalPrice.toFixed(2);
 
-    // Reattach listeners for radio buttons
-    document.querySelectorAll("#orderSummaryList input[type='radio']").forEach((radio) => {
-      radio.addEventListener("change", checkAllRadios);
+    // Reattach listeners for checkboxes
+    document.querySelectorAll(".order-checkbox").forEach((checkbox) => {
+      checkbox.addEventListener("change", checkAllCheckboxes);
     });
 
     document.getElementById("screen1").classList.remove("visible");
     document.getElementById("screen2").classList.add("visible");
   });
 
-  function checkAllRadios() {
-    const radios = document.querySelectorAll("#orderSummaryList input[type='radio']");
-    const allChecked = Array.from(radios).every((radio) => radio.checked);
+  function checkAllCheckboxes() {
+    const checkboxes = document.querySelectorAll(".order-checkbox");
+    const allChecked = Array.from(checkboxes).every((checkbox) => checkbox.checked);
     clearBtn.disabled = !allChecked;
   }
 
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     moneyPaidInput.value = "";
     changeElement.textContent = "0.00";
     orderSummaryList.innerHTML = ""; // Clear the order summary
-    clearBtn.disabled = true; // Re-disable the "Zurücksetzen" button
+    clearBtn.disabled = true; // Disable the "Zurücksetzen" button
 
     document.getElementById("screen2").classList.remove("visible");
     document.getElementById("screen1").classList.add("visible");
