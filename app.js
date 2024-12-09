@@ -11,16 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let products = [];
   let quantities = {};
 
-  // Fetch products from JSON file
   fetch("products.json")
     .then((response) => response.json())
     .then((data) => {
       products = data;
 
-      // Render products dynamically
       products.forEach((product, index) => {
         const productCard = document.createElement("div");
         productCard.className = "product-card";
+        productCard.style.backgroundColor = product.color;
 
         productCard.innerHTML = `
           <label>${product.name} (€${product.price}):</label>
@@ -35,8 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <span id="qtyDisplay${index}">0</span>
         `;
         productList.appendChild(productCard);
-
-        // Initialize quantities
         quantities[product.name] = 0;
       });
     });
@@ -51,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let totalPrice = 0;
     orderSummaryList.innerHTML = "";
 
-    // Calculate total price and populate the order summary
     products.forEach((product, index) => {
       const qty = parseInt(document.getElementById(`productQty${index}`).value, 10) || 0;
       if (qty > 0) {
@@ -77,14 +73,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   clearBtn.addEventListener("click", () => {
-    quantities = {};
     products.forEach((_, index) => {
       document.getElementById(`productQty${index}`).value = 0;
-      document.getElementById(`qtyDisplay${index}`).textContent = 0;
+      document.getElementById(`qtyDisplay${index}`).textContent = "0";
     });
 
     totalPriceElement.textContent = "0.00";
-    moneyPaidInput.value = "0.00";
+    moneyPaidInput.value = "";
     changeElement.textContent = "0.00";
     orderSummaryList.innerHTML = "";
 
